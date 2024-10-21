@@ -2,7 +2,7 @@
 
 # Project Overview
 
-CEBP (Concurrent Document Management System) is a Java-based bureaucratic system designed to streamline the process of handling document issuance in an office environment. The system leverages the Java Concurrency API to efficiently manage a queue of document requests across multiple offices and counters. It is built with flexibility in mind, allowing it to handle an arbitrary number of offices, each with an arbitrary number of counters, ensuring scalability and adaptability.
+Our project is a Java-based bureaucratic system designed to streamline the process of handling document issuance in an office environment. The system leverages the Java Concurrency API to efficiently manage a queue of document requests across multiple offices and counters. It is built with flexibility in mind, allowing it to handle an arbitrary number of offices, each with an arbitrary number of counters, ensuring scalability and adaptability.
 
 # How it works
 
