@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
-public class Birou {
+public class Office {
     private String Name;
-    public ArrayList<Ghiseu> list;
+    public ArrayList<Counter> list;
 
     public String getName() {
         return Name;
@@ -11,9 +11,9 @@ public class Birou {
     public void setName(String name) {
         Name = name;
     }
-    public Birou(String Name)
+    public Office(String Name)
     {
         this.Name=Name;
-        //here is a method for creating new Birou's // office
+        //here is a method for creating new offices
     }
 }

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class User {
     private String Name;
     private String Surname;
-    public ArrayList<Birou> officeList;
+    public ArrayList<Office> officeList;
 
     public String getName() {
         return Name;

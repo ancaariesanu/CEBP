@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 
-public class Ghiseu {
+public class Counter {
     private String Name;
     public ArrayList<Documents> documentList;
 
@@ -13,7 +13,7 @@ public class Ghiseu {
         Name = name;
     }
 
-    public Ghiseu(String name, ArrayList<Documents> documentList)
+    public Counter(String name, ArrayList<Documents> documentList)
     {
         Name = name;
         this.documentList = documentList;
