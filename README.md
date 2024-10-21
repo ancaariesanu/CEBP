@@ -14,6 +14,8 @@ Concurrency Control: The system makes use of Java's concurrency tools, such as E
 
 Scalability: The number of offices and counters can be adjusted dynamically without major modifications to the underlying architecture.
 
+Side note: Any counter can be closed due to "important reasons" (Coffee breaks).
+
 
 # Tehnologies 
 
