@@ -10,6 +10,8 @@ Document Queue: Each office maintains its own queue of document requests, which 
 Concurrency Control: The system makes use of Java's concurrency tools, such as ExecutorService, Locks, Semaphores, and BlockingQueues, to manage the parallel processing of tasks across multiple offices and counters.
 Scalability: The number of offices and counters can be adjusted dynamically without major modifications to the underlying architecture.
 
+Concurrency is managed by using a FIFO queue based on time to order the issues.
+
 # Tehnologies 
 
 - Java
