@@ -5,18 +5,23 @@
 Our project is a Java-based bureaucratic system designed to streamline the process of handling document issuance in an office environment. The system leverages the Java Concurrency API to efficiently manage a queue of document requests across multiple offices and counters. It is built with flexibility in mind, allowing it to handle an arbitrary number of offices, each with an arbitrary number of counters, ensuring scalability and adaptability.
 
 # How it works
+Concurrency is managed by using a FIFO queue based on time to order the issues.
+
 
 Document Queue: Each office maintains its own queue of document requests, which are processed at multiple counters simultaneously.
+
 Concurrency Control: The system makes use of Java's concurrency tools, such as ExecutorService, Locks, Semaphores, and BlockingQueues, to manage the parallel processing of tasks across multiple offices and counters.
+
 Scalability: The number of offices and counters can be adjusted dynamically without major modifications to the underlying architecture.
 
-Concurrency is managed by using a FIFO queue based on time to order the issues.
 
 # Tehnologies 
 
 - Java
 - C# for a standalone application
 - React, HTML, CSS, JavaScript for a web based application
+- Postman, for recieving the request of the issue
+- Others, TBD
 
 # Schema of the project
 
