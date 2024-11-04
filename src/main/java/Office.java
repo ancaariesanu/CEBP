@@ -1,11 +1,12 @@
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Office {
     private final int officeId;
     private final List<Document> documents;
     private final BlockingQueue<Customer> queue;
-    private final Semaphore countersSemaphore;
+    private final ReentrantLock countersLock = new ReentrantLock();
     private final ExecutorService counterExecutor;
     private volatile boolean isCoffeeBreak;
 
@@ -13,7 +14,6 @@ public class Office {
         this.officeId = officeId;
         this.documents = documents;
         this.queue = new LinkedBlockingQueue<>();
-        this.countersSemaphore = new Semaphore(numberOfCounters);
         this.counterExecutor = Executors.newFixedThreadPool(numberOfCounters);
         this.isCoffeeBreak = false;
     }
@@ -24,17 +24,17 @@ public class Office {
     }
 
     public void startServing() {
-        for (int i = 0; i < countersSemaphore.availablePermits(); i++) {
+        for (int i = 0; i < ((ThreadPoolExecutor) counterExecutor).getCorePoolSize(); i++) {
             counterExecutor.submit(() -> {
                 while (!isCoffeeBreak) {
                     try {
-                        countersSemaphore.acquire(); // Acquire a counter
+                        countersLock.lock();
                         Customer customer = queue.take(); // Take a customer from the queue
                         serveCustomer(customer);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     } finally {
-                        countersSemaphore.release(); // Release the counter after serving
+                        countersLock.unlock();
                     }
                 }
             });
