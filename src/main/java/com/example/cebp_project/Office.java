@@ -1,3 +1,7 @@
+package com.example.cebp_project;
+
+import com.example.cebp_project.*;
+
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -16,6 +20,15 @@ public class Office {
         this.countersSemaphore = new Semaphore(numberOfCounters);
         this.counterExecutor = Executors.newFixedThreadPool(numberOfCounters);
         this.isCoffeeBreak = false;
+    }
+    public boolean getOfficeStatus()
+    {
+        return isCoffeeBreak;
+    }
+
+
+    public int getOfficeId() {
+        return officeId;
     }
 
     public void joinQueue(Customer customer) throws InterruptedException {

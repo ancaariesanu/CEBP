@@ -1,3 +1,7 @@
+package com.example.cebp_project;
+
+import com.example.cebp_project.*;
+
 import java.util.ArrayList;
 
 public class User {

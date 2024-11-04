@@ -1,5 +1,11 @@
+package com.example.cebp_project;
+
+import com.example.cebp_project.*;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class BureaucracyManager {
     private final List<Office> offices;
 
