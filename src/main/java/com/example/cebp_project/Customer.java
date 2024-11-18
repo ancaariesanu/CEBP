@@ -9,6 +9,7 @@ public class Customer extends Thread {
     private final Set<Document> collectedDocuments = new HashSet<>();
     private final BureaucracyManager manager;
     private final ReentrantLock documentLock = new ReentrantLock();
+    private final Set<Document> requiredDocuments = new HashSet<>();
 
     public Customer(int customerId, BureaucracyManager manager) {
         this.customerId = customerId;
@@ -17,6 +18,14 @@ public class Customer extends Thread {
 
     public int getCustomerId() {
         return customerId;
+    }
+
+    public void addRequiredDocument(Document doc) {
+        requiredDocuments.add(doc);
+    }
+
+    public Set<Document> getRequiredDocuments() {
+        return requiredDocuments;
     }
 
     @Override

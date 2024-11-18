@@ -1,10 +1,14 @@
 package com.example.cebp_project.Controller;
 
 import com.example.cebp_project.BureaucracyManager;
+import com.example.cebp_project.Config.SupabaseConfig;
 import com.example.cebp_project.Document;
 import com.example.cebp_project.Office;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -21,11 +25,29 @@ public class OfficeController {
     }
 
     @PostMapping("/create")
-    public Office createOffice(@RequestParam int officeId, @RequestParam int numberOfCounters, @RequestBody List<Document> documents) {
-        Office office = new Office(officeId, documents, numberOfCounters);
-        offices.add(office);
-        System.out.println(office);
-        return office;
+    public String createOffice(@RequestParam int officeId, @RequestParam int numberOfCounters, @RequestBody List<String> documentNames) {
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String insertOfficeQuery = "INSERT INTO offices (id, number_of_counters) VALUES (?, ?)";
+            try (PreparedStatement stmt = connection.prepareStatement(insertOfficeQuery)) {
+                stmt.setInt(1, officeId);
+                stmt.setInt(2, numberOfCounters);
+                stmt.executeUpdate();
+            }
+
+            String insertDocumentsQuery = "INSERT INTO office_documents (office_id, document_name) VALUES (?, ?)";
+            try (PreparedStatement stmt = connection.prepareStatement(insertDocumentsQuery)) {
+                for (String docName : documentNames) {
+                    stmt.setInt(1, officeId);
+                    stmt.setString(2, docName);
+                    stmt.executeUpdate();
+                }
+            }
+
+            return "Office " + officeId + " created.";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Failed to create office: " + e.getMessage();
+        }
     }
 
     @PostMapping("/{officeId}/start")

@@ -17,7 +17,8 @@ public class Document {
         return name;
     }
 
-    public List<Document> getDependencies() {
+    public List<Document>
+    getDependencies() {
         return dependencies;
     }
 
