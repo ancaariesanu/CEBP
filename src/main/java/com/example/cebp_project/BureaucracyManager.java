@@ -28,10 +28,10 @@ public class BureaucracyManager {
         for (Office office : offices) {
             for (Document doc : office.getDocuments()) {
                 if (!customer.hasDocument(doc) && doc.canBeIssued(customer)) {
-                    return false; // Customer still needs more documents
+                    return false;
                 }
             }
         }
-        return true; // All required documents have been collected
+        return true;
     }
 }
