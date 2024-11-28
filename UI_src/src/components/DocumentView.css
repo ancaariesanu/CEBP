@@ -1,0 +1,155 @@
+.document-view {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background: #eae6f9;
+  padding: 20px;
+}
+
+.sidebar-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.document-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.document-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;  /* Center text in each list item */
+}
+
+.document-item.selected {
+  background-color: #d6c6f4;
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.document-details {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.document-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.document-icon {
+  font-size: 48px;
+  margin-right: 20px;
+}
+
+.document-title {
+  font-size: 24px;
+}
+
+.document-description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.mandatory-documents {
+  margin-bottom: 20px;
+}
+
+.mandatory-documents label {
+  display: flex;  /* Use flex for proper alignment */
+  align-items: center;  /* Align checkbox and text */
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.mandatory-documents svg {
+  color: #d6c6f4;
+  margin-right: 8px; /* Space between icon and text */
+}
+
+.status {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.upload-button {
+  background: #d6c6f4;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  color: black;
+}
+
+.upload-button:hover {
+  background: #bca4e0;
+}
+
+.back-button {
+  display: flex; /* Use flex for icon alignment */
+  align-items: center; /* Vertically center the icon and text */
+  gap: 8px; /* Space between the icon and text */
+  background-color: #e8e3fa; /* Button background */
+  color: black; /* Text color */
+  padding: 8px 12px; /* Padding for button */
+  border: none; /* Remove borders */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 14px; /* Font size */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Remove underline from text */
+}
+
+.back-button:hover {
+  background-color: #d6c6f4; /* Darker color on hover */
+}
+
+.back-button svg {
+  font-size: 16px; /* Icon size */
+}
+
+.mandatory-documents button.download-button {
+  margin-left: 10px;  /* Adjust space for download button */
+}
+
+.download-button {
+  margin-left: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Space between the icon and text */
+}
+
+.download-button:hover {
+  background-color: white; /* Darker color on hover */
+}
+
+.download-button svg {
+  font-size: 18px; /* Size of the download icon */
+}

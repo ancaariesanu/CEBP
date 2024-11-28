@@ -1,0 +1,141 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background: #eae6f9;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;  /* Align elements vertically */
+  align-items: center;  /* Center items horizontally */
+}
+
+.sidebar-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;  /* Center the sidebar title */
+}
+
+.office-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.office-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;  /* Center text in each list item */
+}
+
+.office-item.selected {
+  background-color: #d6c6f4;
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.documents-section {
+  display: grid;
+  padding-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.document-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+}
+
+.document-card:hover {
+  transform: translateY(-5px);
+}
+
+.document-icon {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.document-title {
+  font-size: 18px;
+  margin: 0;
+}
+
+.document-status {
+  font-size: 14px;
+  color: #555;
+}
+
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100px; /* Adjust width for spacing; set as needed */
+  margin-left: auto; /* Push buttons to the right of the header */
+}
+
+.header-buttons .button {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #e8e3fa;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.header-buttons .button:hover {
+  background-color: #d6c6f4; /* Darker hover effect */
+}
+
+.header-buttons .button svg {
+  font-size: 16px; /* Size of the icon */
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px; /* Adjust width for spacing; set as needed */
+  margin-right: auto; /* Push buttons to the right of the header */
+}
+
+.tab-buttons .button {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #e8e3fa;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.tab-buttons .button:hover {
+  background-color: #d6c6f4; /* Darker hover effect */
+}
