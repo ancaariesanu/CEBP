@@ -1,21 +1,26 @@
 import React from "react";
 import "./Profile.css";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
-    const navigate = useNavigate();
-    
-    return (
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear user data or token if stored
+    console.log("User logged out");
+    navigate("/");
+  };
+
+  return (
     <div className="profile-page">
       <header className="header">
         <div className="back-button">
-          <button className="back-button" onClick={() => navigate("/office-dashboard")}>
+          <button onClick={() => navigate("/office-dashboard")}>
             <FontAwesomeIcon icon={faArrowLeft} /> Back to Dashboard
           </button>
-        </div>  
+        </div>
       </header>
       <h1>User Profile</h1>
       <section className="profile-details">
@@ -26,6 +31,9 @@ function Profile() {
           <p>Home Address: Independentei nr.14 ap.3</p>
           <p>CNP: 7023467928808</p>
           <p>Joined: 2023-01-15</p>
+          <div className="logout-container">
+            <button className="logout-button" onClick={handleLogout}> Logout </button>
+          </div>
         </div>
       </section>
     </div>
