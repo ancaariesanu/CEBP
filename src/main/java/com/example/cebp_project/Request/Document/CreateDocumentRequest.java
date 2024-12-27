@@ -5,6 +5,7 @@ import java.util.List;
 public class CreateDocumentRequest {
     private String name;
     private List<String> dependencies;
+    private String description;
 
     // Getters and Setters
     public String getName() {
@@ -15,11 +16,7 @@ public class CreateDocumentRequest {
         this.name = name;
     }
 
-    public List<String> getDependencies() {
-        return dependencies;
-    }
+    public String getDescription() {return description;}
 
-    public void setDependencies(List<String> dependencies) {
-        this.dependencies = dependencies;
-    }
+    public void setDescription(String description) {this.description = description;}
 }

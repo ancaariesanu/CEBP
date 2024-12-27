@@ -5,7 +5,12 @@ import com.example.cebp_project.Config.SupabaseConfig;
 import com.example.cebp_project.Request.Customer.CheckCustomerStatusRequest;
 import com.example.cebp_project.Request.Customer.CreateCustomerRequest;
 import com.example.cebp_project.Request.Customer.CreateMultipleCustomerRequest;
-import com.example.cebp_project.Request.Customer.SetRequiredDocsRequest;
+import com.example.cebp_project.Request.DeleteCustomerRequest;
+import com.example.cebp_project.Request.SetDocumentsRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
@@ -16,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer")
+@Tag(name = "Customer API", description = "Manage customers and their document requirements.")
 public class CustomerController {
 
     private final List<Customer> customers = new ArrayList<>();
@@ -26,44 +32,69 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public String createCustomer(@RequestBody CreateCustomerRequest request) {
+    @Operation(summary = "Create a new customer", description = "Creates a customer and stores their details in the database.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Customer created successfully."),
+            @ApiResponse(responseCode = "500", description = "Failed to create customer.")
+    })
+    public String createCustomer(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Customer creation details") CreateCustomerRequest request) {
         try (Connection connection = SupabaseConfig.getConnection()) {
-            // Insert customer details
-            String insertCustomerQuery = "INSERT INTO Customer (id, name) VALUES (?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(insertCustomerQuery)) {
-                stmt.setInt(1, request.getCustomerId());
-                stmt.setString(2, request.getName());
+            String query = "INSERT INTO customer (name, user_name, pass) VALUES (?, ?, ?)";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setString(1, request.getName());
+                stmt.setString(2, request.getUserName());
+                stmt.setString(3, request.getPass());
                 stmt.executeUpdate();
             }
-            return "Customer " + request.getCustomerId() + " created successfully.";
+            return "Customer created successfully!";
         } catch (SQLException e) {
             e.printStackTrace();
             return "Failed to create customer: " + e.getMessage();
         }
     }
 
-    @PostMapping("/setDocs")
-    public String setRequiredDocuments(@RequestBody SetRequiredDocsRequest request) {
+    @DeleteMapping("/delete")
+    public String deleteCustomer(@RequestBody DeleteCustomerRequest request) {
         try (Connection connection = SupabaseConfig.getConnection()) {
-            // Insert customer document requirements into Requests
-            String insertRequestQuery = "INSERT INTO requests (customer_id, doc_id, status, created_at) VALUES (?, ?, ?, NOW())";
-            try (PreparedStatement stmt = connection.prepareStatement(insertRequestQuery)) {
-                for (int docId : request.getDocIds()) {
-                    stmt.setInt(1, request.getCustomerId());
-                    stmt.setInt(2, docId);
-                    stmt.setString(3, "Pending");
-                    stmt.executeUpdate();
-                }
+            String query = "DELETE FROM customer WHERE id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setInt(1, request.getId());
+                stmt.executeUpdate();
             }
-            return "Required documents set for customer " + request.getCustomerId() + ".";
+            return "Customer deleted successfully!";
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Failed to set required documents: " + e.getMessage();
+            return "Failed to delete customer: " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/setDoc")
+    @Operation(summary = "Set required documents", description = "Assigns document requirements to a customer.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Documents assigned successfully."),
+            @ApiResponse(responseCode = "500", description = "Failed to assign documents.")
+    })
+    public String setRequiredDocuments(@RequestBody SetDocumentsRequest request) {
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String query = "UPDATE customer SET required_docs = ? WHERE id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setArray(1, connection.createArrayOf("INTEGER", request.getDocIds().toArray()));
+                stmt.setInt(2, request.getCustomerId());
+                stmt.executeUpdate();
+            }
+            return "Required documents updated successfully!";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Failed to update required documents: " + e.getMessage();
         }
     }
 
     @PostMapping("/createMultiple")
-    public String createMultipleCustomer(@RequestBody CreateMultipleCustomerRequest request) {
+    @Operation(summary = "Create multiple customers", description = "Creates multiple customers with the same document requirements.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Customers created successfully.")
+    })
+    public String createMultipleCustomer(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "List of customer IDs") CreateMultipleCustomerRequest request) {
         StringBuilder response = new StringBuilder("Created Customers:");
         for (Integer customerId : request.getCustomerIds()) {
             Customer customer = new Customer(customerId, bureaucracyManager);
@@ -74,8 +105,13 @@ public class CustomerController {
         return response.toString().trim() + " with the same document requirements";
     }
 
-    @PostMapping("/status")
-    public String checkCustomerStatus(@RequestBody CheckCustomerStatusRequest request) {
+    @GetMapping("/status")
+    @Operation(summary = "Check customer status", description = "Checks whether a customer has completed all their document requirements.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Status retrieved successfully."),
+            @ApiResponse(responseCode = "404", description = "Customer not found.")
+    })
+    public String checkCustomerStatus(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Customer ID to check status") CheckCustomerStatusRequest request) {
         int customerId = request.getCustomerId();
         Customer customer = findCustomerById(customerId);
         if (customer != null) {

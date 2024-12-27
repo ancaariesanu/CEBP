@@ -5,7 +5,7 @@ import java.util.List;
 public class CreateOfficeRequest {
     private int officeId;
     private int numberOfCounters;
-    private List<String> documentNames;
+    private String officeName;
 
     public int getOfficeId() {
         return officeId;
@@ -23,11 +23,15 @@ public class CreateOfficeRequest {
         this.numberOfCounters = numberOfCounters;
     }
 
-    public List<String> getDocumentNames() {
-        return documentNames;
-    }
+//    public List<String> getDocumentNames() {
+//        return null;
+//    }
+//
+//    public void setDocumentNames(List<String> documentNames) {
+//        this.documentNames = documentNames;
+//    }
 
-    public void setDocumentNames(List<String> documentNames) {
-        this.documentNames = documentNames;
-    }
+    public String getName() {return officeName;}
+    public void setName(String name) {this.officeName = name;}
+
 }

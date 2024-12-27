@@ -1,33 +1,25 @@
 package com.example.cebp_project;
 
-import com.example.cebp_project.*;
-
-import java.util.List;
-
 public class Document {
     private final String name;
-    private final List<Document> dependencies;
+    private int id;
+    private String description;
 
-    public Document(String name, List<Document> dependencies) {
+    public Document(int id, String name, String description) {
         this.name = name;
-        this.dependencies = dependencies;
+        this.id = id;
+        this.description = description;
     }
 
     public String getName() {
         return name;
     }
 
-    public List<Document>
-    getDependencies() {
-        return dependencies;
-    }
+    public int getId() {return id;}
 
-    public boolean canBeIssued(Customer customer) {
-        for (Document dependency : dependencies) {
-            if (!customer.hasDocument(dependency)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    public void setId(int id) {this.id = id;}
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
 }

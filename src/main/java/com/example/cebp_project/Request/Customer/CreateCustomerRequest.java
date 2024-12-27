@@ -3,6 +3,8 @@ package com.example.cebp_project.Request.Customer;
 public class CreateCustomerRequest {
     private int customerId;
     private String name;
+    private String username;
+    private String password;
 
     // Getters and Setters
     public int getCustomerId() {
@@ -13,11 +15,9 @@ public class CreateCustomerRequest {
         this.customerId = customerId;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getUserName() {return username;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getName() {return name;}
+
+    public String getPass() {return password;}
 }
