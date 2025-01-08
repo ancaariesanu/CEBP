@@ -1,100 +1,139 @@
 package com.example.cebp_project.Controller;
 
-import com.example.cebp_project.BureaucracyManager;
 import com.example.cebp_project.Config.SupabaseConfig;
 import com.example.cebp_project.Office;
-import com.example.cebp_project.Request.Office.CreateOfficeRequest;
-import com.example.cebp_project.Request.Office.OfficeIdRequest;
+import com.example.cebp_project.Customer;
+import com.example.cebp_project.Document;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
-@RequestMapping("/api/office")
+@RequestMapping("/api/offices")
 public class OfficeController {
 
-    private final BureaucracyManager bureaucracyManager;
-    private final List<Office> offices;
-
-    public OfficeController() {
-        offices = new CopyOnWriteArrayList<>();
-        bureaucracyManager = new BureaucracyManager(offices);
-    }
+    private final List<Office> offices = new CopyOnWriteArrayList<>();
 
     @PostMapping("/create")
-    public String createOffice(@RequestBody CreateOfficeRequest request) {
+    public String createOffice(@RequestBody Office office) {
         try (Connection connection = SupabaseConfig.getConnection()) {
-            String insertOfficeQuery = "INSERT INTO offices (id, number_of_counters) VALUES (?, ?)";
+            String insertOfficeQuery = "INSERT INTO office (id, name, counter_no, is_closed) VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(insertOfficeQuery)) {
-                stmt.setInt(1, request.getOfficeId());
-                stmt.setInt(2, request.getNumberOfCounters());
+                stmt.setInt(1, office.getId());
+                stmt.setString(2, office.getName());
+                stmt.setInt(3, office.getCounterNo());
+                stmt.setBoolean(4, office.isClosed());
                 stmt.executeUpdate();
             }
-
-            String insertDocumentsQuery = "INSERT INTO office_documents (office_id, document_name) VALUES (?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(insertDocumentsQuery)) {
-                for (String docName : request.getDocumentNames()) {
-                    stmt.setInt(1, request.getOfficeId());
-                    stmt.setString(2, docName);
-                    stmt.executeUpdate();
-                }
-            }
-
-            return "Office " + request.getOfficeId() + " created.";
+            // Add to in-memory list
+            offices.add(new Office(office.getId(), office.getName(), office.getDocuments(), office.getCounterNo()));
+            return "Office " + office.getId() + " created successfully.";
         } catch (SQLException e) {
             e.printStackTrace();
             return "Failed to create office: " + e.getMessage();
         }
     }
 
-    @PostMapping("/startServing")
-    public String startServing(@RequestBody OfficeIdRequest request) {
-        Office office = findOfficeById(request.getOfficeId());
+    @PostMapping("/{officeId}/joinQueue")
+    public String joinQueue(@PathVariable int officeId, @RequestBody Customer customer) {
+        Office office = findOfficeById(officeId);
+        if (office != null) {
+            try {
+                office.joinQueue(customer);
+                return "Customer " + customer.getCustomerId() + " joined the queue at Office " + officeId;
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return "Failed to add customer to the queue.";
+            }
+        }
+        return "Office not found.";
+    }
+
+    @PostMapping("/{officeId}/startServing")
+    public String startServing(@PathVariable int officeId) {
+        Office office = findOfficeById(officeId);
         if (office != null) {
             office.startServing();
-            return "Started serving at office " + request.getOfficeId();
+            return "Started serving at office " + officeId;
         }
-        return "Office not found";
+        return "Office not found.";
     }
 
-    @PostMapping("/closeForBreak")
-    public String closeForBreak(@RequestBody OfficeIdRequest request) {
-        Office office = findOfficeById(request.getOfficeId());
+    @PostMapping("/{officeId}/closeForBreak")
+    public String closeForBreak(@PathVariable int officeId) {
+        Office office = findOfficeById(officeId);
         if (office != null) {
             office.closeCountersForCoffeeBreak();
-            return "Office " + request.getOfficeId() + " is on a coffee break.";
+            updateOfficeStatusInDB(officeId, true); // Update database
+            return "Office " + officeId + " is closed for a coffee break.";
         }
-        return "Office not found";
+        return "Office not found.";
     }
 
-    @PostMapping("/reopen")
-    public String reopenAfterBreak(@RequestBody OfficeIdRequest request) {
-        Office office = findOfficeById(request.getOfficeId());
+    @PostMapping("/{officeId}/reopen")
+    public String reopenAfterBreak(@PathVariable int officeId) {
+        Office office = findOfficeById(officeId);
         if (office != null) {
             office.reopenAfterCoffeeBreak();
-            return "Office " + request.getOfficeId() + " has reopened after coffee break.";
+            updateOfficeStatusInDB(officeId, false); // Update database
+            return "Office " + officeId + " has reopened after a coffee break.";
         }
-        return "Office not found";
+        return "Office not found.";
+    }
+
+    @GetMapping("/{officeId}/documents")
+    public List<Document> getDocuments(@PathVariable int officeId) {
+        Office office = findOfficeById(officeId);
+        if (office != null) {
+            return office.getDocuments();
+        }
+        return new ArrayList<>();
     }
 
     @GetMapping("/{officeId}/status")
-    public String checkOfficeStatus(@PathVariable int officeId) {
+    public String getOfficeStatus(@PathVariable int officeId) {
         Office office = findOfficeById(officeId);
         if (office != null) {
-            if (office.getOfficeStatus()) {
-                return "Office " + officeId + " is currently on a coffee break.";
-            } else {
-                return "Office " + officeId + " is currently open.";
-            }
+            return office.isClosed() ? "Office " + officeId + " is on a coffee break." : "Office " + officeId + " is open.";
         }
-        return "Office not found";
+        return "Office not found.";
+    }
+
+    @GetMapping("/list")
+    public List<Office> listAllOffices() {
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String selectQuery = "SELECT id, name, counter_no, is_closed FROM office";
+            try (PreparedStatement stmt = connection.prepareStatement(selectQuery)) {
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    List<Office> offices = new ArrayList<>();
+                    List<Document> depedencies = new ArrayList<>();
+                    offices.add(new Office(rs.getInt("id"), rs.getString("name"), depedencies, rs.getInt("counter_no")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return offices;
     }
 
     private Office findOfficeById(int officeId) {
-        return offices.stream().filter(o -> o.getOfficeId() == officeId).findFirst().orElse(null);
+        return offices.stream().filter(o -> o.getId() == officeId).findFirst().orElse(null);
+    }
+
+    private void updateOfficeStatusInDB(int officeId, boolean isClosed) {
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String updateOfficeQuery = "UPDATE office SET is_closed = ? WHERE id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(updateOfficeQuery)) {
+                stmt.setBoolean(1, isClosed);
+                stmt.setInt(2, officeId);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

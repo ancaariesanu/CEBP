@@ -6,16 +6,20 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Office {
     private final int officeId;
+    private String officeName = "";
     private final List<Document> documents;
     private final BlockingQueue<Customer> queue;
     private final ReentrantLock countersLock = new ReentrantLock();
     private final ExecutorService counterExecutor;
     private volatile boolean isCoffeeBreak;
+    private final int numberOfCounters;
 
-    public Office(int officeId, List<Document> documents, int numberOfCounters) {
+    public Office(int officeId, String officeName, List<Document> documents, int numberOfCounters) {
         this.officeId = officeId;
+        this.officeName = officeName;
         this.documents = documents;
         this.queue = new LinkedBlockingQueue<>();
+        this.numberOfCounters = numberOfCounters;
         this.counterExecutor = Executors.newFixedThreadPool(numberOfCounters);
         this.isCoffeeBreak = false;
     }
@@ -59,15 +63,13 @@ public class Office {
         startServing(); // Resume serving
     }
 
-    public List<Document> getDocuments() {
-        return documents;
-    }
+    public List<Document> getDocuments() { return documents; }
 
-    public boolean getOfficeStatus() {
-        return isCoffeeBreak;
-    }
+    public int getId() { return officeId; }
 
-    public int getOfficeId() {
-        return officeId;
-    }
+    public String getName() { return officeName; }
+
+    public int getCounterNo() { return numberOfCounters; }
+
+    public boolean isClosed() { return isCoffeeBreak; }
 }
