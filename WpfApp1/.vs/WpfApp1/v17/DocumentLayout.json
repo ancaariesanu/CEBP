@@ -1,0 +1,149 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Uni\\1\\WpfApp1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\usercontrols\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\usercontrols\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\usercontrols\\adminpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\usercontrols\\adminpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\usercontrols\\adminpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\usercontrols\\adminpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\usercontrols\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\usercontrols\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\usercontrols\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\usercontrols\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|d:\\uni\\1\\wpfapp1\\wpfapp1\\usercontrols\\globalvariables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0C2ACC7-7804-46BD-ADC0-F02A84203828}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\usercontrols\\globalvariables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WpfApp1\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T12:30:54.662Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\MainWindow.xaml",
+              "RelativeToolTip": "WpfApp1\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-25T12:30:50.007Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminPage.xaml",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\AdminPage.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\UserControls\\AdminPage.xaml",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\AdminPage.xaml",
+              "RelativeToolTip": "WpfApp1\\UserControls\\AdminPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-25T09:41:43.337Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminPage.xaml.cs",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\AdminPage.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\UserControls\\AdminPage.xaml.cs",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\AdminPage.xaml.cs",
+              "RelativeToolTip": "WpfApp1\\UserControls\\AdminPage.xaml.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAhwCcAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T09:41:41.145Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserPage.xaml",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\UserPage.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\UserControls\\UserPage.xaml",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\UserPage.xaml",
+              "RelativeToolTip": "WpfApp1\\UserControls\\UserPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-22T14:14:14.008Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginPage.xaml.cs",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\LoginPage.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\UserControls\\LoginPage.xaml.cs",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\LoginPage.xaml.cs",
+              "RelativeToolTip": "WpfApp1\\UserControls\\LoginPage.xaml.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAcwEkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T11:35:38.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LoginPage.xaml",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\LoginPage.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\UserControls\\LoginPage.xaml",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\LoginPage.xaml",
+              "RelativeToolTip": "WpfApp1\\UserControls\\LoginPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-22T11:32:51.724Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GlobalVariables.cs",
+              "DocumentMoniker": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\GlobalVariables.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\UserControls\\GlobalVariables.cs",
+              "ToolTip": "D:\\Uni\\1\\WpfApp1\\WpfApp1\\UserControls\\GlobalVariables.cs",
+              "RelativeToolTip": "WpfApp1\\UserControls\\GlobalVariables.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T14:40:00.321Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

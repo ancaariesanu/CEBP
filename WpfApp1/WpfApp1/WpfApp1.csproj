@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="UserControls\Admin.png" />
+    <None Remove="UserControls\Login.png" />
+    <None Remove="UserControls\User.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="UserControls\Admin.png" />
+    <Resource Include="UserControls\Login.png" />
+    <Resource Include="UserControls\User.png" />
+  </ItemGroup>
+
+</Project>

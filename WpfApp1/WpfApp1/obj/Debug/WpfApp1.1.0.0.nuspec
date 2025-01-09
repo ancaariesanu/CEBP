@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>WpfApp1</id>
+    <version>1.0.0</version>
+    <authors>WpfApp1</authors>
+    <description>Package Description</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net8.0-windows7.0" />
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net8.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="C:\2.EDUARD\1\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\WpfApp1.runtimeconfig.json" target="lib\net8.0-windows7.0\WpfApp1.runtimeconfig.json" />
+    <file src="C:\2.EDUARD\1\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\WpfApp1.dll" target="lib\net8.0-windows7.0\WpfApp1.dll" />
+  </files>
+</package>
