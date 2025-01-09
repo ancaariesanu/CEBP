@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/offices")
 public class OfficeController {
-
     private final List<Office> offices = new CopyOnWriteArrayList<>();
 
     @PostMapping("/create")
@@ -167,7 +167,7 @@ public class OfficeController {
         return "Office not found.";
     }
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", produces = "application/json")
     public List<Office> listAllOffices() {
         List<Office> result = new ArrayList<>();
         try (Connection connection = SupabaseConfig.getConnection()) {
