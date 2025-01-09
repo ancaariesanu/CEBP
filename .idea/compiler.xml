@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="CEBP_project" />
+        <module name="CEBP_Project" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CEBP_Project" options="-parameters" />
       <module name="CEBP_project" options="-parameters" />
     </option>
   </component>
