@@ -1,9 +1,11 @@
 package com.example.cebp_project.Controller;
 
 import com.example.cebp_project.Config.SupabaseConfig;
+import com.example.cebp_project.Counter;
 import com.example.cebp_project.Office;
 import com.example.cebp_project.Customer;
 import com.example.cebp_project.Document;
+import com.example.cebp_project.Request.Office.CreateOfficeRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
@@ -18,23 +20,85 @@ public class OfficeController {
     private final List<Office> offices = new CopyOnWriteArrayList<>();
 
     @PostMapping("/create")
-    public String createOffice(@RequestBody Office office) {
+    public String createOffice(@RequestBody CreateOfficeRequest request) {
         try (Connection connection = SupabaseConfig.getConnection()) {
-            String insertOfficeQuery = "INSERT INTO office (id, name, counter_no, is_closed) VALUES (?, ?, ?, ?)";
+            // Insert the office into the database and retrieve the generated ID
+            String insertOfficeQuery = "INSERT INTO office (name, counter_no, is_closed) VALUES (?, ?, ?) RETURNING id";
+            int generatedId;
+
             try (PreparedStatement stmt = connection.prepareStatement(insertOfficeQuery)) {
-                stmt.setInt(1, office.getId());
-                stmt.setString(2, office.getName());
-                stmt.setInt(3, office.getCounterNo());
-                stmt.setBoolean(4, office.isClosed());
-                stmt.executeUpdate();
+                stmt.setString(1, request.getName());
+                stmt.setInt(2, request.getCounterNo());
+                stmt.setBoolean(3, request.isClosed());
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        generatedId = rs.getInt("id");
+                    } else {
+                        throw new SQLException("Failed to retrieve generated ID.");
+                    }
+                }
             }
-            // Add to in-memory list
-            offices.add(new Office(office.getId(), office.getName(), office.getDocuments(), office.getCounterNo()));
-            return "Office " + office.getId() + " created successfully.";
+
+            // Create the Office object with the generated ID and save it locally
+            Office createdOffice = new Office(generatedId, request.getName(), request.getCounterNo());
+            offices.add(createdOffice);
+
+            return "Office " + generatedId + " created successfully.";
         } catch (SQLException e) {
             e.printStackTrace();
             return "Failed to create office: " + e.getMessage();
         }
+    }
+
+
+
+    @PostMapping("/{officeId}/addDocument")
+    public String addDocumentToOffice(@PathVariable int officeId, @RequestBody Document document) {
+        Office office = findOfficeById(officeId);
+        if (office != null) {
+            office.addDocument(document);
+            return "Document " + document.getDocumentId() + " added to Office " + officeId;
+        }
+        return "Office not found.";
+    }
+
+    @PostMapping("/{officeId}/addCounter/{counterId}")
+    public String addCounterToOffice(@PathVariable int officeId, @PathVariable int counterId) {
+        Office office = findOfficeById(officeId);
+        if (office != null) {
+            // Find the counter by counterId (assuming you have a method to get Counter by id)
+            Counter counter = findCounterById(counterId);
+
+            if (counter != null) {
+                // Set the officeId for the counter if not already set
+                if (counter.getOfficeId() == 0) {
+                    counter.setOfficeId(officeId); // Assign officeId to counter if not set
+                }
+
+                // Add the counter to the office
+                boolean added = office.addCounter(counter);
+                return added ? "Counter " + counter.getName() + " added to Office " + officeId
+                        : "Unable to add more counters to Office " + officeId;
+            } else {
+                return "Counter with ID " + counterId + " not found.";
+            }
+        }
+        return "Office not found.";
+    }
+
+    private Counter findCounterById(int counterId) {
+        // Iterate through the list of offices
+        for (Office office : offices) {
+            // Iterate through the list of counters in each office
+            for (Counter counter : office.getCounters()) {
+                // Check if the counter ID matches
+                if (counter.getId() == counterId) {
+                    return counter; // Return the counter if found
+                }
+            }
+        }
+        return null; // Return null if no matching counter is found
     }
 
     @PostMapping("/{officeId}/joinQueue")
@@ -96,6 +160,7 @@ public class OfficeController {
     @GetMapping("/{officeId}/status")
     public String getOfficeStatus(@PathVariable int officeId) {
         Office office = findOfficeById(officeId);
+        System.out.println(office);
         if (office != null) {
             return office.isClosed() ? "Office " + officeId + " is on a coffee break." : "Office " + officeId + " is open.";
         }
@@ -104,20 +169,25 @@ public class OfficeController {
 
     @GetMapping("/list")
     public List<Office> listAllOffices() {
+        List<Office> result = new ArrayList<>();
         try (Connection connection = SupabaseConfig.getConnection()) {
             String selectQuery = "SELECT id, name, counter_no, is_closed FROM office";
+            System.out.println("Fetching offices from database...");
             try (PreparedStatement stmt = connection.prepareStatement(selectQuery)) {
                 ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    List<Office> offices = new ArrayList<>();
-                    List<Document> depedencies = new ArrayList<>();
-                    offices.add(new Office(rs.getInt("id"), rs.getString("name"), depedencies, rs.getInt("counter_no")));
+                while (rs.next()) {
+                    // Add each office to the result list
+                    result.add(new Office(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getInt("counter_no")
+                    ));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return offices;
+        return result;
     }
 
     private Office findOfficeById(int officeId) {

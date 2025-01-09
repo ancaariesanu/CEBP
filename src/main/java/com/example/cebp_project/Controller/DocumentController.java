@@ -4,6 +4,7 @@ import com.example.cebp_project.Config.SupabaseConfig;
 import com.example.cebp_project.Document;
 import com.example.cebp_project.Request.Document.CreateDocumentRequest;
 import com.example.cebp_project.Request.Document.GetDocumentRequest;
+import com.example.cebp_project.Request.Document.SetDescriptionRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
@@ -23,10 +24,11 @@ public class DocumentController {
     @PostMapping("/create")
     public String createDocument(@RequestBody CreateDocumentRequest request) {
         try (Connection connection = SupabaseConfig.getConnection()) {
-            String insertDocQuery = "INSERT INTO documents (name) VALUES (?) RETURNING id";
+            connection.setAutoCommit(false); // Enable transaction management
             int documentId;
 
             // Insert the main document
+            String insertDocQuery = "INSERT INTO documents (name) VALUES (?) RETURNING id";
             try (PreparedStatement stmt = connection.prepareStatement(insertDocQuery)) {
                 stmt.setString(1, request.getName());
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -38,40 +40,74 @@ public class DocumentController {
                 }
             }
 
-            // Insert dependencies
+            // Handle dependencies
             if (!request.getDependencies().isEmpty()) {
                 String getDependencyIdQuery = "SELECT id FROM documents WHERE name = ?";
+                String insertNewDependencyQuery = "INSERT INTO documents (name) VALUES (?) RETURNING id";
                 String insertDependencyQuery = "INSERT INTO doc_dep_inter (doc_id, dep_id) VALUES (?, ?)";
 
                 try (PreparedStatement selectStmt = connection.prepareStatement(getDependencyIdQuery);
-                     PreparedStatement insertStmt = connection.prepareStatement(insertDependencyQuery)) {
+                     PreparedStatement insertNewDepStmt = connection.prepareStatement(insertNewDependencyQuery);
+                     PreparedStatement insertDepStmt = connection.prepareStatement(insertDependencyQuery)) {
 
                     for (String dependencyName : request.getDependencies()) {
-                        // Retrieve dependency ID
+                        int dependencyId;
+
+                        // Check if dependency exists
                         selectStmt.setString(1, dependencyName);
                         try (ResultSet rs = selectStmt.executeQuery()) {
                             if (rs.next()) {
-                                int dependencyId = rs.getInt("id");
-
-                                // Insert into doc_dep_inter table
-                                insertStmt.setInt(1, documentId);
-                                insertStmt.setInt(2, dependencyId);
-                                insertStmt.executeUpdate();
+                                dependencyId = rs.getInt("id"); // Dependency exists, retrieve its ID
                             } else {
-                                System.err.println("Dependency not found: " + dependencyName);
+                                // Dependency does not exist, create it
+                                insertNewDepStmt.setString(1, dependencyName);
+                                try (ResultSet newDepRs = insertNewDepStmt.executeQuery()) {
+                                    if (newDepRs.next()) {
+                                        dependencyId = newDepRs.getInt("id");
+                                    } else {
+                                        throw new SQLException("Failed to insert new dependency: " + dependencyName);
+                                    }
+                                }
                             }
                         }
+
+                        // Insert into doc_dep_inter table
+                        insertDepStmt.setInt(1, documentId);
+                        insertDepStmt.setInt(2, dependencyId);
+                        insertDepStmt.executeUpdate();
                     }
                 }
             }
 
-            return "Document " + request.getName() + " created with dependencies.";
+            connection.commit(); // Commit the transaction
+            return "Document '" + request.getName() + "' created with dependencies.";
         } catch (SQLException e) {
             e.printStackTrace();
             return "Failed to create document: " + e.getMessage();
         }
     }
 
+    @PostMapping("/setDescription")
+    public String setDocumentDescription(@RequestBody SetDescriptionRequest request) {
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String updateDescriptionQuery = "UPDATE documents SET description = ? WHERE id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(updateDescriptionQuery)) {
+                stmt.setString(1, request.getDescription());
+                stmt.setInt(2, request.getDocumentId());
+                int rowsUpdated = stmt.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    return "Description for document " + request.getDocumentId() + " updated successfully.";
+                } else {
+                    return "Document not found.";
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Failed to update description: " + e.getMessage();
+        }
+    }
 
     @DeleteMapping("/delete/{id}")
     public String deleteDocument(@PathVariable int id) {
@@ -113,12 +149,40 @@ public class DocumentController {
         return null;
     }
 
+    @GetMapping("/list")
+    public List<Document> listAllDocuments() {
+        List<Document> documents = new ArrayList<>();
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String selectQuery = "SELECT id, name, description FROM documents";
+            try (PreparedStatement stmt = connection.prepareStatement(selectQuery);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    int documentId = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String description = rs.getString("description");
+
+                    // Retrieve dependencies for each document
+                    List<Document> dependencies = getDependenciesForDocument(documentId, connection);
+
+                    // Add the document to the list with dependencies
+                    documents.add(new Document(name, dependencies, description));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return documents;
+    }
+
+
+
     private List<Document> getDependenciesForDocument(int documentId, Connection connection) {
         List<Document> dependencies = new ArrayList<>();
         String dependencyQuery = "SELECT d.id, d.name, d.description " +
                 "FROM doc_dep_inter dd " +
-                "JOIN documents d ON dd.dependency_id = d.id " +
-                "WHERE dd.document_id = ?";
+                "JOIN documents d ON dd.dep_id = d.id " +
+                "WHERE dd.doc_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(dependencyQuery)) {
             stmt.setInt(1, documentId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -135,4 +199,6 @@ public class DocumentController {
         }
         return dependencies;
     }
+
+
 }

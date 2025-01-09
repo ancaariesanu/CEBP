@@ -1,33 +1,34 @@
 package com.example.cebp_project.Request.Office;
 
-import java.util.List;
-
 public class CreateOfficeRequest {
-    private int officeId;
-    private int numberOfCounters;
-    private List<String> documentNames;
 
-    public int getOfficeId() {
-        return officeId;
+    private String name;
+    private int counterNo;
+    private boolean isClosed;
+
+    // Constructors, getters, and setters
+
+    public String getName() {
+        return name;
     }
 
-    public void setOfficeId(int officeId) {
-        this.officeId = officeId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getNumberOfCounters() {
-        return numberOfCounters;
+    public int getCounterNo() {
+        return counterNo;
     }
 
-    public void setNumberOfCounters(int numberOfCounters) {
-        this.numberOfCounters = numberOfCounters;
+    public void setCounterNo(int counterNo) {
+        this.counterNo = counterNo;
     }
 
-    public List<String> getDocumentNames() {
-        return documentNames;
+    public boolean isClosed() {
+        return isClosed;
     }
 
-    public void setDocumentNames(List<String> documentNames) {
-        this.documentNames = documentNames;
+    public void setClosed(boolean closed) {
+        isClosed = closed;
     }
 }

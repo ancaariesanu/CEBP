@@ -8,10 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/counters")
 public class CounterController {
+    private final List<Counter> localCounters = new ArrayList<>();
 
     @PostMapping("/create")
     public String createCounter(@RequestBody Counter request) {
@@ -60,6 +63,34 @@ public class CounterController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @GetMapping("/list")
+    public List<Counter> listAllCounters() {
+        List<Counter> counters = new ArrayList<>();
+        try (Connection connection = SupabaseConfig.getConnection()) {
+            String query = "SELECT * FROM counter";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    // Create and add Counter to list
+                    Counter counter = new Counter(rs.getInt("id"), rs.getInt("office_id"), rs.getString("name"), rs.getInt("doc_id"));
+                    counters.add(counter);
+
+                    // Save it locally as well
+                    localCounters.add(counter);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counters;
+    }
+
+    // Optionally, you can return the locally saved counters with another endpoint
+    @GetMapping("/local")
+    public List<Counter> getLocalCounters() {
+        return localCounters;
     }
 }
 

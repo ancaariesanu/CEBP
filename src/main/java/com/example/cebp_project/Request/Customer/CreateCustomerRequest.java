@@ -6,15 +6,6 @@ public class CreateCustomerRequest {
     private String userName;
     private String password;
 
-    // Getters and Setters
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
     public String getName() {
         return name;
     }
