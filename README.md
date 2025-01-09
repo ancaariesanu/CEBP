@@ -19,12 +19,13 @@ Side note: Any counter can be closed due to "important reasons" (Coffee breaks).
 
 # Tehnologies 
 
-- Java
-- C# for a standalone application
-- React, HTML, CSS, JavaScript for a web based application
-- Postman, for recieving the request of the issue
-- Others, TBD
-
+- Java.
+- C#, Windows Forms for a standalone application.
+- React, HTML, CSS, JavaScript for a web based application.
+- Swagger UI & Postman, for testing the endpoints.
+- Amazon Web Services, to run a server with the backend logic and make the connections for the clients with the database.
+- SQL for making queries in the Supabase database.
+- Supabase for authentication and database.
 # Schema of the project
 
 ![image](https://github.com/user-attachments/assets/f6c598d8-ebce-4929-87b9-dbd9cb53c5e3)
