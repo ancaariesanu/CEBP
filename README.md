@@ -31,3 +31,48 @@ Side note: Any counter can be closed due to "important reasons" (Coffee breaks).
 
 
 ![image](https://github.com/user-attachments/assets/db860e30-4546-48ac-a7f2-34d1a4aa4d7b)
+
+# Prerequisites
+## For backend
+### If you have Jetbrains Intellij installed:
+You can import the project and let the IDE download all the maven plugins.
+
+### If you don't have Jetbrains Intellij installed:
+#### For linux:
+Install maven and any Java 17 JDK.
+For Ubuntu
+```
+sudo apt update
+sudo apt install openjdk-17-jdk maven -y
+```
+After having all these packages enter inside the src folder and run ```mvn clean install```.
+
+#### For Windows:
+You can use  ```.\mvnw.exe``` to run maven comands.
+Just like this: ```.\mvn.exe clean install```.
+
+## For frontend
+- ```npm``` installed on the computer
+- any web browser
+Once you have npm enter inside the UI_src folder and run ```npm install``` to download all the packages.
+
+
+# How to run
+## For backend
+### If you have Intellij:
+You can run the ```MyApplication.java``` file.
+
+### If you have Windows or a Linux machine without Intellij:
+For Linux
+```mvn spring-boot:test-run```
+
+For Windows
+```.\mvnw.exe spring-boot:test-run```
+
+#### After this you can enter on the Swagger page to test out the endpoints:
+```localhost:8080/swagger-ui/index.html```
+
+#### We also have a AWS server with the backend but it's turned off to save costs.
+## For frontend
+You need to run ```npm start``` on the root folder.
+
